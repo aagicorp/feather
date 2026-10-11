@@ -7,6 +7,8 @@
 #                                 card in every window, checked at each launch). --critical-below <version> limits
 #                                 that to copies older than <version>.
 #   ./release.sh --phased <seconds>  roll the update out gradually over that many seconds
+#   ./release.sh --publish        continue with the notarized DMG already in releases/ (feed and publishing only),
+#                                 for when a release stopped after notarization
 #   ./release.sh team             a signed (and, once the login is stored, notarized) DMG to hand to the team
 #                                 directly: no website, no update feed; people install the next DMG by hand
 # Release notes: add a "## <version>" section to CHANGELOG.md first. It becomes the text of the update window
@@ -59,7 +61,7 @@ TEXT
 sign() { codesign --force --timestamp --options runtime --sign "$ID" "$@"; }
 
 release() {
-    local notarize=1 team=0 critical="" critical_set=0 phased=""
+    local notarize=1 team=0 critical="" critical_set=0 phased="" publish_only=0
     while [[ $# -gt 0 ]]; do
         case "$1" in
             --no-notarize) notarize=0 ;;
@@ -67,6 +69,7 @@ release() {
             --critical) critical=""; critical_set=1 ;;
             --critical-below) critical="$2"; critical_set=1; shift ;;
             --phased) phased="$2"; shift ;;
+            --publish) publish_only=1 ;;
             *) fail "Unknown option: $1" ;;
         esac
         shift
@@ -92,7 +95,12 @@ release() {
         fi
         [[ "$FEED_URL" == https://* ]] || fail "FEED_URL must be an https address"
         DMG="$OUT/Feather-$VERSION.dmg"
-        [[ ! -e "$DMG" ]] || fail "$DMG exists already. Raise the number in VERSION: a released version is never rebuilt."
+        if [[ $publish_only == 1 ]]; then
+            [[ -e "$DMG" ]] || fail "--publish needs $DMG, and there is none: run ./release.sh without it."
+            xcrun stapler validate "$DMG" >/dev/null 2>&1 || fail "$DMG is not notarized and stapled; run ./release.sh without --publish."
+        else
+            [[ ! -e "$DMG" ]] || fail "$DMG exists already. Raise the number in VERSION: a released version is never rebuilt (or, if it was notarized but never published, ./release.sh --publish)."
+        fi
     fi
 
     # The notes in the update window come from the same CHANGELOG.md the app shows as "What's New".
@@ -101,6 +109,9 @@ release() {
     [[ $team == 1 ]] || python3 tools/release_notes.py "$VERSION" CHANGELOG.md "$OUT/Feather-$VERSION.html" \
         || fail "CHANGELOG.md has no \"## $VERSION\" section. Write the notes for this version first."
 
+    if [[ $publish_only == 1 ]]; then
+        say "Using the notarized $DMG"
+    else
     say "Building Feather $VERSION"
     if [[ $team == 1 ]]; then ./build.sh --team; else ./build.sh --release; fi
 
@@ -136,6 +147,7 @@ TEXT
     else
         echo "Skipped notarization: other Macs will refuse to open this DMG."
     fi
+    fi   # publish_only
 
     if [[ $team == 1 ]]; then
         say "Done: $DMG"
@@ -154,7 +166,8 @@ TEXT
         say "Marked critical: every copy ${critical:+older than $critical }will be told to install it, without Skip."
     fi
     [[ -n "$phased" ]] && extra+=(--phased-rollout-interval "$phased")
-    "$TOOLS/generate_appcast" "$OUT" --download-url-prefix "$DOWNLOAD_URL_PREFIX" -o "$OUT/appcast.xml" "${extra[@]}"
+    # (`${extra[@]+"${extra[@]}"}`: an empty array is "unbound" to the bash 3.2 that macOS ships, under set -u.)
+    "$TOOLS/generate_appcast" "$OUT" --download-url-prefix "$DOWNLOAD_URL_PREFIX" -o "$OUT/appcast.xml" ${extra[@]+"${extra[@]}"}
 
     if [[ -n "$UPLOAD_COMMAND" ]]; then
         say "Publishing"
@@ -171,6 +184,6 @@ TEXT
 
 case "${1:-}" in
     setup) setup ;;
-    ""|--no-notarize|team|--critical|--critical-below|--phased) release "$@" ;;
+    ""|--no-notarize|team|--critical|--critical-below|--phased|--publish) release "$@" ;;
     *) sed -n '2,9p' "$0" ;;
 esac
