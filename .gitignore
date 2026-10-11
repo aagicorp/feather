@@ -6,7 +6,8 @@ Feather.app/
 
 # Disk images and local release output. releases/ keeps the appcast and notes; the DMGs stay on the releasing Mac.
 *.dmg
-releases/old_updates/
+# Release output on the releasing Mac: DMGs, notes, appcast. Kept there for delta updates, never committed.
+releases/
 team-builds/
 update-lab/
 

@@ -163,8 +163,8 @@ final class WelcomeView: NSView {
     var onOpenRecent: ((URL) -> Void)?
     var onOpenFolder: (() -> Void)?
     /// Added to MainWindowController by other parts of Feather; a step nobody answers is greyed out, not a beep.
-    static let startAssistantAction = Selector(("startAIAssistant:"))
-    static let showActivityAction = Selector(("showActivity:"))
+    static let startAssistantAction = #selector(MainWindowController.startAIAssistant(_:))
+    static let showActivityAction = #selector(MainWindowController.showActivity(_:))
 
     private let stack = NSStackView()
     /// The page scrolls when the editor is shorter than its content (the terminal dragged tall), instead of the

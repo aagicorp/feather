@@ -809,12 +809,12 @@ final class SourceControlViewController: NSViewController, NSOutlineViewDataSour
         var commands: [[String]] = []
         if status.staged.isEmpty && !status.isMerging { commands.append(["add", "-A"]) }
         commands.append(message.isEmpty ? ["commit", "--no-edit"] : ["commit", "-m", message])
-        run(commands, busy: "Committing…") { [weak self] result in
+        run(commands, busy: "Committing…", then: { [weak self] result in
             guard result.ok, let field = self?.messageField else { return }
             // Clear the live field editor as well, or it writes the old message back when focus moves.
             field.stringValue = ""
             field.currentEditor()?.string = ""
-        }
+        })
     }
 
     /// A branch with no upstream yet is published as `origin/<name>`.
@@ -949,10 +949,10 @@ final class SourceControlViewController: NSViewController, NSOutlineViewDataSour
             } else {
                 let url = urlField.stringValue.trimmingCharacters(in: .whitespacesAndNewlines)
                 guard !url.isEmpty else { NSSound.beep(); return }
-                run([["remote", "add", "origin", url]], busy: "Connecting origin…") { [weak self] result in
+                run([["remote", "add", "origin", url]], busy: "Connecting origin…", then: { [weak self] result in
                     guard result.ok else { return }
                     self?.run([["push", "-u", "origin", branch]], busy: "Publishing \(branch)…", network: true)
-                }
+                })
             }
         case .alertThirdButtonReturn:
             NSWorkspace.shared.open(URL(string: "https://github.com/new")!)
@@ -1181,11 +1181,11 @@ final class SourceControlViewController: NSViewController, NSOutlineViewDataSour
         chooseBranch(title: "Switch to branch", button: "Switch") { [weak self] branch in
             // "origin/feature" checks out a local "feature" that tracks it.
             let isRemote = branch.contains("/") && !(self?.status.branch ?? "").isEmpty && branch.hasPrefix("origin/")
-            self?.run([isRemote ? ["checkout", "--track", branch] : ["checkout", branch]], busy: "Switching…") { result in
+            self?.run([isRemote ? ["checkout", "--track", branch] : ["checkout", branch]], busy: "Switching…", then: { result in
                 guard !result.ok, isRemote else { return }
                 // The tracking branch may already exist locally.
                 self?.run([["checkout", String(branch.dropFirst("origin/".count))]], busy: "Switching…")
-            }
+            })
         }
     }
 
