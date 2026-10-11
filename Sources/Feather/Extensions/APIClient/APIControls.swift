@@ -99,6 +99,13 @@ final class APITabButton: NSButton {
 
     required init?(coder: NSCoder) { fatalError("init(coder:) is not supported") }
 
+    /// A click from code sends the action straight away: with no title and no bezel, AppKit's own `performClick`
+    /// sends it on some systems (macOS 26) and not others (macOS 15), and the strip's tests click this way.
+    override func performClick(_ sender: Any?) {
+        guard isEnabled, let action else { return }
+        _ = sendAction(action, to: target)
+    }
+
     override var intrinsicContentSize: NSSize {
         var width = ceil((titleText as NSString).size(withAttributes: [.font: APITabButton.titleFont]).width) + 20
         if let badge { width += ceil((badge as NSString).size(withAttributes: [.font: APITabButton.badgeFont]).width) + 14 }
