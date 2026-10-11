@@ -6,7 +6,7 @@ bring with it, and how the code is written, so a pull request can be reviewed qu
 
 ## Setting up
 
-You need a Mac with macOS 13 or later and Xcode 16 or later. The package's tools version is 5.9; CI builds on
+You need a Mac with macOS 13 or later and Xcode 16 or later. The Liquid Glass chrome needs the macOS 26 SDK (Xcode 26); with an older Xcode the app builds without it and draws the flat panels it draws on earlier systems (`swift build -Xswiftc -DFEATHER_NO_GLASS` builds that way on purpose). The package's tools version is 5.9; CI builds on
 GitHub's `macos-15` runner.
 
 ```sh

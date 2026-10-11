@@ -7,7 +7,10 @@ final class GlassTests: XCTestCase {
     func testTheSurfaceMatchesTheSystem() {
         let content = NSView()
         let surface = Glass.panel(around: content, cornerRadius: 10, tint: .red)
+        var checkedGlass = false
+        #if compiler(>=6.2) && !FEATHER_NO_GLASS
         if #available(macOS 26, *), Glass.isActive {
+            checkedGlass = true
             let glass = try? XCTUnwrap(surface as? NSGlassEffectView)
             XCTAssertNotNil(glass, "macOS 26 without Reduce Transparency: glass")
             XCTAssertTrue(glass?.contentView === content)
@@ -15,7 +18,12 @@ final class GlassTests: XCTestCase {
             XCTAssertEqual(glass?.tintColor?.alphaComponent ?? 0, Glass.tintAlpha, accuracy: 0.01)
             Glass.retint(surface, .blue)
             XCTAssertEqual(glass?.tintColor?.usingColorSpace(.sRGB)?.blueComponent, 1)
-        } else {
+        }
+        #else
+        XCTAssertFalse(Glass.isBuiltWithGlass, "an older SDK, or -DFEATHER_NO_GLASS: no glass is ever drawn")
+        XCTAssertFalse(Glass.isActive)
+        #endif
+        if !checkedGlass {
             XCTAssertTrue(surface is Glass.FlatPanel)
             XCTAssertTrue(content.superview === surface)
             XCTAssertEqual(surface.layer?.cornerRadius, 10)
@@ -48,8 +56,10 @@ final class GlassTests: XCTestCase {
         XCTAssertEqual(bar.backdropForTests.tintColorForTests?.alphaComponent, 1)
         XCTAssertEqual(Glass.paneBackground(.red).alpha, 1)
         Settings.shared.glassChrome = true
-        if #available(macOS 26, *), !NSWorkspace.shared.accessibilityDisplayShouldReduceTransparency {
+        if #available(macOS 26, *), Glass.isBuiltWithGlass, !NSWorkspace.shared.accessibilityDisplayShouldReduceTransparency {
             XCTAssertEqual(Glass.paneBackground(.red).alpha, 0, "panes let the sidebar's glass through")
+        } else {
+            XCTAssertEqual(Glass.paneBackground(.red).alpha, 1, "no glass: the pane paints its colour")
         }
     }
 

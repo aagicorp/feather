@@ -9,9 +9,18 @@ enum Glass {
     /// Whether glass is drawn right now: the system has it, the person has not asked for less transparency, and
     /// the Preferences switch is on.
     static var isActive: Bool {
-        if #available(macOS 26, *) { return Settings.shared.glassChrome && !NSWorkspace.shared.accessibilityDisplayShouldReduceTransparency }
+        if #available(macOS 26, *) { return isBuiltWithGlass && Settings.shared.glassChrome && !NSWorkspace.shared.accessibilityDisplayShouldReduceTransparency }
         return false
     }
+
+    /// `NSGlassEffectView` is in the macOS 26 SDK (Xcode 26). An older toolchain builds Feather without glass:
+    /// the same flat panels as on earlier systems, and `isActive` stays false. `swift build -Xswiftc
+    /// -DFEATHER_NO_GLASS` builds that way on purpose, to check it on a Mac that has the newer SDK.
+    #if compiler(>=6.2) && !FEATHER_NO_GLASS
+    static let isBuiltWithGlass = true
+    #else
+    static let isBuiltWithGlass = false
+    #endif
 
     /// How much of the theme colour lies over the window chrome's glass: the theme still reads, the desktop
     /// shows through blurred, as it does behind the system's own sidebars. `defaults write com.aagicorp.feather
@@ -97,6 +106,7 @@ enum Glass {
 
     /// A surface for `content`: glass with rounded corners, or a flat panel. `content` fills it.
     static func panel(around content: NSView, cornerRadius: CGFloat, tint: NSColor) -> NSView {
+        #if compiler(>=6.2) && !FEATHER_NO_GLASS
         if #available(macOS 26, *), isActive {
             let glass = NSGlassEffectView()
             glass.cornerRadius = cornerRadius
@@ -104,6 +114,7 @@ enum Glass {
             glass.contentView = content
             return glass
         }
+        #endif
         let flat = FlatPanel()
         flat.wantsLayer = true
         flat.layer?.cornerRadius = cornerRadius
@@ -120,11 +131,13 @@ enum Glass {
 
     /// The theme changed: the surface takes the new colour.
     static func retint(_ surface: NSView, _ tint: NSColor) {
+        #if compiler(>=6.2) && !FEATHER_NO_GLASS
         if #available(macOS 26, *), let glass = surface as? NSGlassEffectView {
             glass.tintColor = tint.withAlphaComponent(Glass.tintAlpha)
-        } else {
-            surface.layer?.backgroundColor = tint.cgColor
+            return
         }
+        #endif
+        surface.layer?.backgroundColor = tint.cgColor
     }
 
     /// How much of the theme colour shows in the glass: enough to tell the themes apart, little enough to see through.
