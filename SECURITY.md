@@ -16,7 +16,7 @@ shipped as a required update, which every older copy offers at once.
 Please do not open a public issue for a security problem.
 
 - Preferred: use GitHub's private vulnerability reporting, **Security ▸ Report a vulnerability** on the
-  repository page (`https://github.com/OWNER/feather/security/advisories/new`).
+  repository page (`https://github.com/aagicorp/feather/security/advisories/new`).
 - Or email **SECURITY_CONTACT_EMAIL** (placeholder: fill in before the repository is published).
 
 Include the Feather version (**Feather ▸ About Feather**), the macOS version, what you did, what happened and

@@ -11,8 +11,8 @@
 <p align="center">
   <a href="LICENSE"><img alt="Apache 2.0" src="https://img.shields.io/badge/license-Apache%202.0-blue.svg"></a>
   <img alt="macOS 13 or later" src="https://img.shields.io/badge/macOS-13%2B-black.svg">
-  <a href="https://github.com/OWNER/feather/releases/latest"><img alt="Latest release" src="https://img.shields.io/github/v/release/OWNER/feather?label=release"></a>
-  <a href="https://github.com/OWNER/feather/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/OWNER/feather/actions/workflows/ci.yml/badge.svg"></a>
+  <a href="https://github.com/aagicorp/feather/releases/latest"><img alt="Latest release" src="https://img.shields.io/github/v/release/aagicorp/feather?label=release"></a>
+  <a href="https://github.com/aagicorp/feather/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/aagicorp/feather/actions/workflows/ci.yml/badge.svg"></a>
 </p>
 
 <p align="center">
@@ -66,7 +66,7 @@ around the editor and no bundled runtime. The 0.14.3 disk image is 7.4 MB.
 
 Feather runs on macOS 13 Ventura or later, on Apple silicon and Intel Macs.
 
-1. Download `Feather.dmg` from the [latest release](https://github.com/OWNER/feather/releases/latest).
+1. Download `Feather.dmg` from the [latest release](https://github.com/aagicorp/feather/releases/latest).
 2. Open it and drag Feather to Applications.
 3. Open a folder: **File ▸ Open…**, drop it on the Dock icon, or `feather .` after
    **Feather ▸ Install 'feather' Command…**.
@@ -74,14 +74,13 @@ Feather runs on macOS 13 Ventura or later, on Apple silicon and Intel Macs.
 Released copies check for updates once a day and under **Feather ▸ Check for Updates…**; updates are signed with
 an EdDSA key and verified against the public key inside the app.
 
-> The repository address in this file (`OWNER/feather`) is a placeholder until the public repository exists.
 
 ## Build from source
 
 You need Xcode 16 or later (the package's tools version is 5.9; CI builds on GitHub's `macos-15` runner).
 
 ```sh
-git clone https://github.com/OWNER/feather.git
+git clone https://github.com/aagicorp/feather.git
 cd feather
 ./build.sh                # Feather.app in this folder: ad-hoc signed, never looks for updates
 open Feather.app

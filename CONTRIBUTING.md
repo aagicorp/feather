@@ -10,7 +10,7 @@ You need a Mac with macOS 13 or later and Xcode 16 or later. The package's tools
 GitHub's `macos-15` runner.
 
 ```sh
-git clone https://github.com/OWNER/feather.git
+git clone https://github.com/aagicorp/feather.git
 cd feather
 ./build.sh          # Feather.app in this folder: ad-hoc signed, never checks for updates
 open Feather.app
