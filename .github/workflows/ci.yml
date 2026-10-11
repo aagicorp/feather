@@ -8,6 +8,10 @@ jobs:
     runs-on: macos-15
     steps:
       - uses: actions/checkout@v4
+      # tree-sitter-dart fetches a git submodule over SSH (git@github.com:tree-sitter/tree-sitter); the runner has
+      # no SSH key, so GitHub SSH addresses are read over HTTPS instead.
+      - name: Use HTTPS for GitHub submodules
+        run: git config --global url."https://github.com/".insteadOf "git@github.com:"
       - name: Swift version
         run: swift --version
       - name: Build
