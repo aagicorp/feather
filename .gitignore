@@ -1,0 +1,26 @@
+# Build output
+.build/
+.build-intel/
+.swiftpm/
+Feather.app/
+
+# Disk images and local release output. releases/ keeps the appcast and notes; the DMGs stay on the releasing Mac.
+*.dmg
+releases/old_updates/
+team-builds/
+update-lab/
+
+# The update-signing private key, if it is ever exported for a backup. Never commit it.
+feather-update-key*
+
+# Project-local Feather settings for this checkout (the project colour). Personal, not part of the source.
+.feather/
+
+# macOS and tooling leftovers
+.DS_Store
+__pycache__/
+*.xcuserstate
+xcuserdata/
+
+# A website checkout or node tooling accidentally placed here (the site lives in its own repository)
+node_modules/

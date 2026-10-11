@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#7C3AED"/><stop offset="0.5" stop-color="#4F46E5"/><stop offset="1" stop-color="#0891B2"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.68" cy="0.3" r="0.62">
+      <stop offset="0" stop-color="#F0ABFC" stop-opacity="0.38"/><stop offset="1" stop-color="#F0ABFC" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="vane" x1="0" y1="1" x2="0.35" y2="0">
+      <stop offset="0" stop-color="#2563EB"/><stop offset="0.5" stop-color="#22D3EE"/><stop offset="1" stop-color="#A7F3D0"/>
+    </linearGradient>
+    <linearGradient id="code" x1="1" y1="0" x2="0" y2="0">
+      <stop offset="0" stop-color="#C4B5FD"/><stop offset="1" stop-color="#8B5CF6"/>
+    </linearGradient>
+    <linearGradient id="sheen" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.16"/><stop offset="0.4" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
+    <mask id="cuts">
+      <rect x="-600" y="-600" width="1200" height="1200" fill="white"/>
+      <polygon points="212.5,-125.0 214.7,-103.0 105.6,-80.0" fill="black"/>
+      <polygon points="151.5,43.0 150.7,65.0 92.4,88.0" fill="black"/>
+    </mask>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="14" stdDeviation="18" flood-color="#0F172A" flood-opacity="0.24"/>
+    </filter>
+    <clipPath id="tile"><rect x="100" y="100" width="824" height="824" rx="186"/></clipPath>
+  </defs>
+
+  <rect x="100" y="100" width="824" height="824" rx="186" fill="#F7F8FA"/>
+  <rect x="101.5" y="101.5" width="821" height="821" rx="184.5"
+        fill="none" stroke="#0F172A" stroke-opacity="0.10" stroke-width="3"/>
+
+  <g transform="translate(478 506) rotate(40)" filter="url(#shadow)">
+    <path d="M0.0,-350.0 L43.5,-344.0 L62.9,-338.0 L77.8,-332.0 L90.4,-326.0 L101.4,-320.0 L111.1,-314.0 L120.0,-308.0 L128.0,-302.0 L135.3,-296.0 L142.0,-290.0 L148.3,-284.0 L154.0,-278.0 L159.3,-272.0 L164.2,-266.0 L168.8,-260.0 L173.0,-254.0 L176.9,-248.0 L180.5,-242.0 L183.8,-236.0 L186.8,-230.0 L189.6,-224.0 L192.1,-218.0 L194.4,-212.0 L196.4,-206.0 L198.3,-200.0 L199.9,-194.0 L201.3,-188.0 L202.5,-182.0 L203.6,-176.0 L204.4,-170.0 L205.1,-164.0 L205.6,-158.0 L205.9,-152.0 L206.1,-146.0 L206.1,-140.0 L206.0,-134.0 L205.6,-128.0 L205.2,-122.0 L204.6,-116.0 L203.9,-110.0 L203.0,-104.0 L202.0,-98.0 L200.9,-92.0 L199.6,-86.0 L198.2,-80.0 L196.7,-74.0 L195.1,-68.0 L193.3,-62.0 L191.5,-56.0 L189.5,-50.0 L187.4,-44.0 L185.3,-38.0 L183.0,-32.0 L180.6,-26.0 L178.1,-20.0 L175.5,-14.0 L172.8,-8.0 L170.0,-2.0 L167.1,4.0 L164.2,10.0 L161.1,16.0 L157.9,22.0 L154.7,28.0 L151.4,34.0 L148.0,40.0 L144.5,46.0 L140.9,52.0 L137.3,58.0 L133.6,64.0 L129.7,70.0 L125.9,76.0 L121.9,82.0 L117.9,88.0 L113.7,94.0 L109.5,100.0 L105.3,106.0 L100.9,112.0 L96.5,118.0 L92.0,124.0 L87.4,130.0 L82.7,136.0 L77.9,142.0 L73.0,148.0 L68.0,154.0 L62.8,160.0 L57.6,166.0 L52.1,172.0 L46.3,178.0 L40.2,184.0 L32.7,190.0 L37.7,190.0 L38.6,184.0 L39.4,178.0 L40.2,172.0 L40.9,166.0 L41.7,160.0 L42.4,154.0 L43.1,148.0 L43.7,142.0 L44.4,136.0 L45.0,130.0 L45.6,124.0 L46.1,118.0 L46.6,112.0 L47.1,106.0 L47.6,100.0 L48.0,94.0 L48.4,88.0 L48.8,82.0 L49.2,76.0 L49.5,70.0 L49.8,64.0 L50.0,58.0 L50.3,52.0 L50.5,46.0 L50.6,40.0 L50.8,34.0 L50.9,28.0 L50.9,22.0 L51.0,16.0 L51.0,10.0 L51.0,4.0 L50.9,-2.0 L50.8,-8.0 L50.7,-14.0 L50.6,-20.0 L50.4,-26.0 L50.2,-32.0 L50.0,-38.0 L49.7,-44.0 L49.4,-50.0 L49.1,-56.0 L48.7,-62.0 L48.3,-68.0 L47.9,-74.0 L47.4,-80.0 L47.0,-86.0 L46.5,-92.0 L45.9,-98.0 L45.4,-104.0 L44.8,-110.0 L44.2,-116.0 L43.5,-122.0 L42.8,-128.0 L42.1,-134.0 L41.4,-140.0 L40.7,-146.0 L39.9,-152.0 L39.1,-158.0 L38.3,-164.0 L37.5,-170.0 L36.6,-176.0 L35.7,-182.0 L34.8,-188.0 L33.9,-194.0 L32.9,-200.0 L32.0,-206.0 L31.0,-212.0 L30.0,-218.0 L29.0,-224.0 L27.9,-230.0 L26.9,-236.0 L25.8,-242.0 L24.8,-248.0 L23.7,-254.0 L22.6,-260.0 L21.4,-266.0 L20.3,-272.0 L19.2,-278.0 L18.0,-284.0 L16.9,-290.0 L15.7,-296.0 L14.5,-302.0 L13.4,-308.0 L12.2,-314.0 L11.0,-320.0 L9.8,-326.0 L8.6,-332.0 L7.4,-338.0 L6.2,-344.0 L5.0,-350.0 Z" fill="url(#vane)" mask="url(#cuts)"/>
+    <line x1="5.9" y1="-200.0" x2="-108.5" y2="-229.3" stroke="url(#code)" stroke-width="25" stroke-linecap="round" opacity="0.95"/>
+    <line x1="12.5" y1="-155.0" x2="-73.6" y2="-177.2" stroke="url(#code)" stroke-width="25" stroke-linecap="round" opacity="0.90"/>
+    <line x1="17.8" y1="-110.0" x2="-123.3" y2="-146.7" stroke="url(#code)" stroke-width="25" stroke-linecap="round" opacity="0.86"/>
+    <line x1="21.5" y1="-65.0" x2="-71.8" y2="-89.5" stroke="url(#code)" stroke-width="25" stroke-linecap="round" opacity="0.81"/>
+    <line x1="23.6" y1="-20.0" x2="-90.1" y2="-50.1" stroke="url(#code)" stroke-width="25" stroke-linecap="round" opacity="0.77"/>
+    <line x1="23.9" y1="25.0" x2="-32.1" y2="10.0" stroke="url(#code)" stroke-width="25" stroke-linecap="round" opacity="0.72"/>
+    <line x1="22.5" y1="70.0" x2="-35.5" y2="54.3" stroke="url(#code)" stroke-width="25" stroke-linecap="round" opacity="0.68"/>
+    <line x1="19.4" y1="115.0" x2="-7.6" y2="107.6" stroke="url(#code)" stroke-width="25" stroke-linecap="round" opacity="0.64"/>
+    <line x1="14.7" y1="160.0" x2="11.7" y2="159.2" stroke="url(#code)" stroke-width="25" stroke-linecap="round" opacity="0.59"/>
+    <path d="M5.2,-324.0 L7.5,-312.4 L9.8,-300.8 L12.0,-289.2 L14.3,-277.6 L16.4,-266.0 L18.6,-254.4 L20.7,-242.8 L22.7,-231.2 L24.7,-219.6 L26.6,-208.0 L28.5,-196.4 L30.3,-184.8 L32.0,-173.2 L33.6,-161.6 L35.2,-150.0 L36.6,-138.4 L38.0,-126.8 L39.2,-115.2 L40.4,-103.6 L41.5,-92.0 L42.4,-80.4 L43.3,-68.8 L44.0,-57.2 L44.6,-45.6 L45.1,-34.0 L45.5,-22.4 L45.8,-10.8 L46.0,0.8 L46.0,12.4 L45.9,24.0 L45.7,35.6 L45.4,47.2 L45.0,58.8 L44.5,70.4 L43.8,82.0 L43.1,93.6 L42.2,105.2 L41.2,116.8 L40.1,128.4 L38.9,140.0 L37.7,151.6 L36.3,163.2 L34.8,174.8 L33.2,186.4 L31.6,198.0 L29.9,209.6 L28.1,221.2 L26.2,232.8 L24.2,244.4 L22.2,256.0 L20.2,267.6 L18.1,279.2 L15.9,290.8 L13.7,302.4 L11.5,314.0 L9.2,325.6 L6.9,337.2 L4.6,348.8 L2.3,360.4 L0.0,372.0" fill="none" stroke="#1F2937" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <!-- the text cursor the quill has just written -->
+  <rect x="338" y="776" width="150" height="30" rx="15" fill="#22D3EE"/>
+</svg>

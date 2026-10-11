@@ -1,0 +1,21 @@
+Feather
+Copyright 2026 Aatvaas Granger Internationals Inc
+
+This product is licensed under the Apache License, Version 2.0 (see LICENSE).
+
+"Feather" and the Feather logo are marks of Aatvaas Granger Internationals Inc. The licence does not grant
+permission to use them for a modified version.
+
+This product bundles third-party software, each under its own licence. The copyright notices and licence texts
+are reproduced in THIRD-PARTY-LICENSES.txt, and CREDITS.md lists them:
+
+  SwiftTerm                       MIT       Miguel de Icaza; the xterm.js authors; SourceLair; Christopher Jeffrey
+  Sparkle                         MIT       Andy Matuschak, Elgato Systems, Kornel Lesinski, Mayur Pawashe and others
+                                            (its bsdiff, libdivsufsort and ed25519 parts carry BSD and zlib notices)
+  Tree-sitter runtime             MIT       Max Brunsfeld
+  SwiftTreeSitter                 BSD-3     Chime
+  tree-sitter grammars            MIT       JavaScript, TypeScript, Python, JSON, CSS, HTML, Go, Bash (Max Brunsfeld);
+                                            Java (Ayman Nadeem); Rust (Maxim Sokolov); Swift (alex-pinkus);
+                                            Kotlin (fwcd); Dart (UserNobody14 and others);
+                                            YAML (Ika; tree-sitter-grammars contributors)
+  Material Icon Theme (file icons) MIT      Material Extensions
