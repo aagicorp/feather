@@ -14,7 +14,12 @@ final class GitPerformanceTests: XCTestCase {
     }
 
     @discardableResult
-    private func timed(_ label: String, limit: TimeInterval, file: StaticString = #filePath, line: UInt = #line, _ work: () throws -> Void) rethrows -> TimeInterval {
+    /// A shared CI runner is several times slower than a Mac on a desk; its budgets are widened, the numbers
+    /// are still printed, and a real regression still goes well past them.
+    private static let budgetScale: Double = ProcessInfo.processInfo.environment["CI"] == nil ? 1 : 4
+
+    private func timed(_ label: String, limit nominal: TimeInterval, file: StaticString = #filePath, line: UInt = #line, _ work: () throws -> Void) rethrows -> TimeInterval {
+        let limit = nominal * GitPerformanceTests.budgetScale
         let started = CFAbsoluteTimeGetCurrent()
         try work()
         let elapsed = CFAbsoluteTimeGetCurrent() - started

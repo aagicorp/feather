@@ -102,8 +102,8 @@ final class APITabButton: NSButton {
     /// A click from code sends the action straight away: with no title and no bezel, AppKit's own `performClick`
     /// sends it on some systems (macOS 26) and not others (macOS 15), and the strip's tests click this way.
     override func performClick(_ sender: Any?) {
-        guard isEnabled, let action else { return }
-        _ = sendAction(action, to: target)
+        guard isEnabled, let action, let target = target as? NSObject else { return }
+        _ = target.perform(action, with: self)        // not through NSApp, which a bare test process may not have
     }
 
     override var intrinsicContentSize: NSSize {
