@@ -319,6 +319,16 @@ extension UITestHarness {
         DispatchQueue.main.asyncAfter(deadline: .now() + seconds, execute: work)
     }
 
+    /// Runs `work` as soon as `condition` holds, or after `timeout` seconds regardless (the check that follows
+    /// then fails with the real state). A CI runner is slow: a fixed wait that is ample on a desk is not there.
+    static func once(_ condition: @escaping () -> Bool, within timeout: TimeInterval, every interval: TimeInterval = 0.2, _ work: @escaping () -> Void) {
+        let deadline = Date().addingTimeInterval(timeout)
+        func poll() {
+            if condition() || Date() >= deadline { work() } else { after(interval, poll) }
+        }
+        poll()
+    }
+
     /// A fresh project folder with a couple of source files, for scenarios that need one.
     static func makeProject(_ name: String) -> URL {
         let root = output.appendingPathComponent(name)
@@ -453,6 +463,11 @@ extension UITestHarness {
                     report("SKIP terminal-drag: Feather is not the front app (the Mac is in use); run it alone with FEATHER_UITEST_ONLY=terminal-drag")
                     return done()
                 }
+                // A CI runner has no desktop session that lets a process post mouse events (Accessibility).
+                guard CGPreflightPostEventAccess(), ProcessInfo.processInfo.environment["CI"] == nil else {
+                    report("SKIP terminal-drag: this machine does not let Feather post mouse events (a CI runner); the list's logic is covered by terminals.selectKeepsRows and the unit tests")
+                    return done()
+                }
                 func point(row: Int, dy: CGFloat = 0) -> CGPoint {
                     let rect = table.rect(ofRow: row)
                     let onScreen = window.convertPoint(toScreen: table.convert(NSPoint(x: rect.minX + 40, y: rect.midY + dy), to: nil))
@@ -549,7 +564,7 @@ extension UITestHarness {
             let observer = NotificationCenter.default.addObserver(forName: Git.repositoryDidChange, object: nil, queue: .main) { _ in refreshes += 1 }
             controller.openFolder(repo, asksAboutTrust: false)
             controller.showSourceControl(nil)                      // the pane's button only exists once the pane is shown
-            after(2) {
+            once({ controller.sourceControl.primaryTitleForTests == "Publish Branch" }, within: 15) {
                 // A repository with no remote: the pane's one button offers to publish, as VS Code's does.
                 check("git.publishOffered", controller.sourceControl.primaryTitleForTests == "Publish Branch", controller.sourceControl.primaryTitleForTests)
                 let before = refreshes
