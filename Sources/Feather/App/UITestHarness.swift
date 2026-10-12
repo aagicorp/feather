@@ -545,6 +545,8 @@ extension UITestHarness {
             }
         },
         Scenario(name: "git") { controller, done in
+            // The branch check at the end reads the first terminal's branch; run alone, there is none yet.
+            if controller.terminals.sessions.isEmpty { controller.showTerminal(); controller.terminals.startIfNeeded() }
             let repo = output.appendingPathComponent("repo")
             try? FileManager.default.removeItem(at: repo)
             try? FileManager.default.createDirectory(at: repo, withIntermediateDirectories: true)
