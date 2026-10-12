@@ -14,6 +14,9 @@
   (`defaults write com.aagicorp.feather glassSurfaceAlpha 0.7` tunes it). Without glass nothing changes.
 
 ### Project colour
+- **A project colour shows on light themes too.** On a light theme the colour was dyed so faintly, and then
+  painted so see-through over the glass, that the bars looked plain. A light chrome now takes more of the
+  colour, and a project colour is painted nearly solid over the glass on every theme.
 - **Calmer project colours.** The colour is now dyed into the window chrome instead of painted over it, so the
   bars and the ground under the panels take the hue without becoming a block of paint; and the palette's shades
   are kept off full saturation, since the whole window wears the one chosen. VS Code and Peacock colours are

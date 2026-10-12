@@ -568,7 +568,9 @@ extension UITestHarness {
             controller.showSourceControl(nil)                      // the pane's button only exists once the pane is shown
             once({ controller.sourceControl.primaryTitleForTests == "Publish Branch" }, within: 15) {
                 // A repository with no remote: the pane's one button offers to publish, as VS Code's does.
-                check("git.publishOffered", controller.sourceControl.primaryTitleForTests == "Publish Branch", controller.sourceControl.primaryTitleForTests)
+                let status = controller.sourceControl.statusForTests
+                check("git.publishOffered", controller.sourceControl.primaryTitleForTests == "Publish Branch",
+                      "\(controller.sourceControl.primaryTitleForTests); branch \(status.branch ?? "nil"), unborn \(status.isUnborn), staged \(status.staged.count), unstaged \(status.unstaged.count), root \(controller.sourceControl.repositoryRoot?.path ?? "nil"), git \(Git.executable?.path ?? "nil")")
                 let before = refreshes
                 git(["checkout", "-q", "-b", "feature/x"])
                 // Changes in the list: a header with its count, rows with name, folder and letter, actions on hover.

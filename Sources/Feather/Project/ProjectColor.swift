@@ -93,10 +93,11 @@ enum ProjectColor {
     }()
 
     /// The colour as the window wears it: dyed into the theme's chrome rather than painted over it, so the
-    /// bars and the ground under the panels take the hue without turning into a block of paint. A dark chrome
-    /// takes a little more of the colour than a light one, which would wash out.
+    /// bars and the ground under the panels take the hue without turning into a block of paint. A light chrome
+    /// takes more of the colour: mixed with white, a colour fades fast, and on a light theme the colour should
+    /// still be plainly there.
     static func chromeTint(_ color: NSColor, over chrome: NSColor) -> NSColor {
-        color.withAlphaComponent(chrome.isLight ? 0.42 : 0.55).blended(over: chrome)
+        color.withAlphaComponent(chrome.isLight ? 0.66 : 0.55).blended(over: chrome)
     }
 
     /// Feather's own setting first, then whatever VS Code or Peacock set for this project.

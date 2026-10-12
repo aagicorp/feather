@@ -255,7 +255,7 @@ final class ProjectColorTests: XCTestCase {
         let onDark = ProjectColor.chromeTint(purple, over: dark).usingColorSpace(.sRGB)!
         let onLight = ProjectColor.chromeTint(purple, over: light).usingColorSpace(.sRGB)!
         XCTAssertFalse(onDark.isLight, "a dark theme stays dark")
-        XCTAssertTrue(onLight.isLight, "a light theme stays light")
+        XCTAssertGreaterThan(onLight.saturationComponent, 0.3, "on a light theme the colour is plainly there, not a pastel wash")
         XCTAssertGreaterThan(onLight.brightnessComponent, onDark.brightnessComponent)
     }
 

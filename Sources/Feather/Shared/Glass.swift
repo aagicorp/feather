@@ -75,14 +75,20 @@ enum Glass {
         required init?(coder: NSCoder) { fatalError("init(coder:) is not supported") }
         deinit { NotificationCenter.default.removeObserver(self) }
 
-        func tint(_ color: NSColor) {
+        /// A project colour is `solid`: it is painted almost opaque over the glass, since at the chrome's
+        /// see-through alpha a colour fades into the desktop, most of all on a light theme.
+        func tint(_ color: NSColor, solid: Bool = false) {
             base = color
+            isSolid = solid
             refresh()
         }
+        private var isSolid = false
+        static let solidAlpha: CGFloat = 0.88
 
         @objc private func refresh() {
             effect.isHidden = !Glass.isActive
-            tintView.layer?.backgroundColor = Glass.chrome(base).cgColor
+            let alpha = isSolid ? max(Glass.chromeAlpha, Backdrop.solidAlpha) : Glass.chromeAlpha
+            tintView.layer?.backgroundColor = (Glass.isActive ? base.withAlphaComponent(alpha) : base).cgColor
         }
 
         override func layout() {

@@ -119,7 +119,7 @@ final class HeaderBar: NSView {
     }
 
     override func draw(_ dirtyRect: NSRect) {
-        backdrop.tint(tint ?? theme.chrome)          // the backdrop paints the ground
+        backdrop.tint(tint ?? theme.chrome, solid: tint != nil)          // the backdrop paints the ground
         guard tint == nil else { return }
         theme.border.setFill()
         NSRect(x: 0, y: 0, width: bounds.width, height: 1).fill()

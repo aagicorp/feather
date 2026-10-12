@@ -54,6 +54,8 @@ final class GlassTests: XCTestCase {
         bar.backdropForTests.tint(.red)
         XCTAssertFalse(bar.backdropForTests.isGlassForTests)
         XCTAssertEqual(bar.backdropForTests.tintColorForTests?.alphaComponent, 1)
+        bar.backdropForTests.tint(.red, solid: true)
+        XCTAssertEqual(bar.backdropForTests.tintColorForTests?.alphaComponent, 1, "without glass a project colour is simply the colour")
         XCTAssertEqual(Glass.paneBackground(.red).alpha, 1)
         Settings.shared.glassChrome = true
         if #available(macOS 26, *), Glass.isBuiltWithGlass, !NSWorkspace.shared.accessibilityDisplayShouldReduceTransparency {
@@ -141,5 +143,20 @@ final class GlassTests: XCTestCase {
         XCTAssertEqual(controller.sidebarPanel.insetsForTests.left, GapSplitView.gap, "off the activity bar")
         XCTAssertEqual(controller.sidebarPanel.insetsForTests.right, 0, "the divider to the editor is the gap")
         window.close()
+    }
+
+    func testAProjectColourIsPaintedNearlySolidOverGlass() {
+        let backdrop = Glass.Backdrop(material: .sidebar)
+        backdrop.tint(.systemTeal)
+        let plain = backdrop.tintColorForTests?.alphaComponent ?? -1
+        backdrop.tint(.systemTeal, solid: true)
+        let solid = backdrop.tintColorForTests?.alphaComponent ?? -1
+        if Glass.isActive {
+            XCTAssertEqual(plain, Glass.chromeAlpha, accuracy: 0.01)
+            XCTAssertEqual(solid, max(Glass.chromeAlpha, Glass.Backdrop.solidAlpha), accuracy: 0.01, "the colour reads instead of fading into the desktop")
+        } else {
+            XCTAssertEqual(plain, 1)
+            XCTAssertEqual(solid, 1)
+        }
     }
 }

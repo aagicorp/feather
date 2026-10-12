@@ -107,7 +107,7 @@ final class ActivityBar: NSView {
 
     private func restyle() {
         let ground = tint ?? theme.chrome
-        backdrop.tint(ground)
+        backdrop.tint(ground, solid: tint != nil)
         // The badge is the accent on the plain bar; on a project colour it is the ink, with the colour as its text,
         // so it stands out whatever the colour is.
         let badge = tint.map { ActivityButton.BadgeStyle(fill: ink, text: $0, ring: ground) }

@@ -16,7 +16,7 @@ extension MainWindowController {
         let theme = Settings.shared.theme
         let tint = chosen.map { ProjectColor.chromeTint($0, over: theme.chrome) }     // dyed into the chrome, not painted
         window?.backgroundColor = tint ?? theme.chrome
-        rootBackdrop?.tint(tint ?? theme.chrome)       // the ground the panels float on takes the project colour, like the bars
+        rootBackdrop?.tint(tint ?? theme.chrome, solid: tint != nil)       // the ground the panels float on takes the project colour, like the bars
         // A layer's border is drawn over its sublayers, so this frames every pane down both sides of the window.
         rootView?.layer?.borderColor = tint?.cgColor
         rootView?.layer?.borderWidth = tint != nil && wantsBorder ? 3 : 0
