@@ -38,11 +38,15 @@ PY
 say() { printf '\n\033[1m%s\033[0m\n' "$*"; }
 say "GitHub release v$VERSION in $GITHUB_REPO"
 LATEST="$OUT/Feather.dmg"
+# The delta updates generate_appcast made from the earlier DMGs (Feather<new>-<old>.delta): the feed links to
+# them next to the DMG, so they go up with it; a copy that cannot get one falls back to the whole DMG.
+DELTAS=()
+for delta in "$OUT"/Feather"$VERSION"-*.delta; do [[ -e "$delta" ]] && DELTAS+=("$delta"); done
 cp "$DMG" "$LATEST"
 if gh release view "v$VERSION" --repo "$GITHUB_REPO" >/dev/null 2>&1; then
-    run gh release upload "v$VERSION" "$DMG" "$LATEST" --repo "$GITHUB_REPO" --clobber
+    run gh release upload "v$VERSION" "$DMG" "$LATEST" ${DELTAS[@]+"${DELTAS[@]}"} --repo "$GITHUB_REPO" --clobber
 else
-    run gh release create "v$VERSION" "$DMG" "$LATEST" --repo "$GITHUB_REPO" --title "Feather $VERSION" --notes-file "$NOTES_MD"
+    run gh release create "v$VERSION" "$DMG" "$LATEST" ${DELTAS[@]+"${DELTAS[@]}"} --repo "$GITHUB_REPO" --title "Feather $VERSION" --notes-file "$NOTES_MD"
 fi
 rm -f "$LATEST"
 

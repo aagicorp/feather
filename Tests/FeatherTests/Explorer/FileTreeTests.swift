@@ -365,6 +365,8 @@ final class ExplorerRowTests: XCTestCase {
         let changedPath = root.appendingPathComponent("src/main/java/App.java").standardizedFileURL.path
         XCTAssertTrue(TestSupport.wait(upTo: 15) { controller.decorations.kind(forFile: changedPath) == .modified }, "no marks arrived")
         controller.reveal(root.appendingPathComponent("src/main/java/App.java"))
+        // The folders along the way load as the reveal descends; a slow machine (CI) takes a moment.
+        XCTAssertTrue(TestSupport.wait(upTo: 15) { rows(outline).contains("src › main › java") }, rows(outline).joined(separator: " | "))
         let names = rows(outline)
         let chainRow = try XCTUnwrap(names.firstIndex(of: "src › main › java"), names.joined(separator: " | "))
         XCTAssertEqual(badge(outline, row: chainRow)?.stringValue, "•")
