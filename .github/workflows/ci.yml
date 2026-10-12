@@ -16,8 +16,10 @@ jobs:
         run: swift --version
       - name: Build
         run: swift build
+      # In one process: the tests share the app's settings store (UserDefaults), and `--parallel` runs test
+      # classes in several processes at once, which then trip over each other's settings.
       - name: Unit tests
-        run: swift test --parallel
+        run: swift test
       - name: Window tests
         run: tools/uitest.sh "$RUNNER_TEMP/uitest"
       - uses: actions/upload-artifact@v4

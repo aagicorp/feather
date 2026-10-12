@@ -25,7 +25,7 @@ opens a clean window; `Feather --reset` wipes those files and quits. Neither tou
 
 | Command | What it does |
 | --- | --- |
-| `swift test --parallel` | The unit tests (about 990): parsers, heuristics, diffing, git plumbing, settings, symbol scanning, the checkers, shell integration. No window, no network, no real project. See [Tests/FeatherTests/README.md](Tests/FeatherTests/README.md). |
+| `swift test` | The unit tests (in one process: they share the settings store, so `--parallel` is not safe) (about 990): parsers, heuristics, diffing, git plumbing, settings, symbol scanning, the checkers, shell integration. No window, no network, no real project. See [Tests/FeatherTests/README.md](Tests/FeatherTests/README.md). |
 | `tools/uitest.sh [folder]` | The window harness (`Sources/Feather/App/UITestHarness.swift`): builds the debug binary, opens a real window, drives it through its scenarios, writes a PNG per scenario and fails on any `FAIL` line. `FEATHER_UITEST_ONLY=name tools/uitest.sh` runs one scenario. |
 | `tools/perf.sh [folder]` | Measures the **release** build: launch to window, idle CPU and memory, a 3,000-file folder, expanding its tree, a 1.5 MB TypeScript file, keystroke cost, forty tabs opened and closed, leaked blocks. |
 | `tools/shots.sh [folder]` | Screenshots for the website and the README: opens this repository in the app, stages each feature and captures the real window (`Sources/Feather/App/UITestHarness+Shots.swift`). |
