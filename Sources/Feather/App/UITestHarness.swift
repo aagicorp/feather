@@ -25,6 +25,12 @@ enum UITestHarness {
         guard let path = environment["FEATHER_UITEST"] ?? environment["FEATHER_PERF"] ?? environment["FEATHER_SHOTS"], !path.isEmpty else { return }
         output = URL(fileURLWithPath: path)
         try? FileManager.default.createDirectory(at: output, withIntermediateDirectories: true)
+        // Folder trust as on a fresh Mac (on), with the harness's own folders trusted, as the person clicking
+        // Trust would: otherwise a machine where nothing was ever trusted (a CI runner) opens them in Restricted
+        // Mode, where git is off, and the Source Control checks see an empty pane.
+        WorkspaceTrust.shared.isEnabled = true
+        WorkspaceTrust.shared.trust(output)
+        if isShots { WorkspaceTrust.shared.trust(URL(fileURLWithPath: FileManager.default.currentDirectoryPath)) }
         self.controller = controller
         controller.window?.setFrame(isShots ? NSRect(x: 60, y: 60, width: 1380, height: 860) : NSRect(x: 80, y: 80, width: 1100, height: 700), display: true)
         // A scenario that never finishes must not leave the app running for ever.
