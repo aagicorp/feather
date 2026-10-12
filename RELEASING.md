@@ -32,6 +32,8 @@ key, the notarization credentials, and the addresses in `release.config`.
    `releases/appcast.xml`.
 4. With `GITHUB_REPO` set, the script then creates the GitHub release with the DMG, writes the website's
    `release.json` and `appcast.xml`, and deploys the site when `DEPLOY_WEBSITE_COMMAND` is set.
+   If the run stops after notarization (a network hiccup, a keychain prompt), `./release.sh --publish` continues
+   from the notarized DMG in `releases/`: feed, GitHub release, website.
 5. Commit and push: the GitHub release's tag `v<version>` already exists on GitHub; `git fetch --tags` brings
    it down.
 
