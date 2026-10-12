@@ -569,8 +569,14 @@ extension UITestHarness {
             once({ controller.sourceControl.primaryTitleForTests == "Publish Branch" }, within: 15) {
                 // A repository with no remote: the pane's one button offers to publish, as VS Code's does.
                 let status = controller.sourceControl.statusForTests
-                check("git.publishOffered", controller.sourceControl.primaryTitleForTests == "Publish Branch",
-                      "\(controller.sourceControl.primaryTitleForTests); branch \(status.branch ?? "nil"), unborn \(status.isUnborn), staged \(status.staged.count), unstaged \(status.unstaged.count), root \(controller.sourceControl.repositoryRoot?.path ?? "nil"), git \(Git.executable?.path ?? "nil")")
+                var detail = "\(controller.sourceControl.primaryTitleForTests); branch \(status.branch ?? "nil"), unborn \(status.isUnborn), staged \(status.staged.count), unstaged \(status.unstaged.count), root \(controller.sourceControl.repositoryRoot?.path ?? "nil"), git \(Git.executable?.path ?? "nil")"
+                if controller.sourceControl.primaryTitleForTests != "Publish Branch" {
+                    // What git itself says here, for a machine where the pane got no status (a CI runner).
+                    let probe = Git.runSyncData(["status", "--porcelain=v1", "-b"], in: repo)
+                    detail += "; probe exit \(probe.status), out \(probe.output.count) bytes, err '\(probe.error.prefix(300))'"
+                    detail += "; restricted \(WorkspaceTrust.shared.blocksExecution(in: repo)), shell path dirs \(ShellEnvironment.shared.pathDirectories.count)"
+                }
+                check("git.publishOffered", controller.sourceControl.primaryTitleForTests == "Publish Branch", detail)
                 let before = refreshes
                 git(["checkout", "-q", "-b", "feature/x"])
                 // Changes in the list: a header with its count, rows with name, folder and letter, actions on hover.
